@@ -26,6 +26,7 @@ void setup() {
 }
 
 void loop() {
+//---------------------------------------------------------------------------------REQUIRED CODE FOR RFID SENSOR
   MFRC522::MIFARE_Key key;
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
   
@@ -63,15 +64,13 @@ void loop() {
   }
 
   //PRINT FIRST NAME
-  for (uint8_t i = 0; i < 16; i++)
-  {
-    if (buffer1[i] != 32)
-    {
+  for (uint8_t i = 0; i < 16; i++){
+    if (buffer1[i] != 32){
       Serial.write(buffer1[i]);
     }
   }
-
-  //increasing the counter, detecting if the rfid tag is Michael or Rhys
+//---------------------------------------------------------------------------------CODE FOR DETECTING AND SHOWING STUDENT LOCATION
+  //increasing the counter, detecting if the RFID tag is Michael or Rhys
   if (buffer1[0] == 'M' ){
     counter1= counter1 +1;
   }else if(buffer1[0] == 'R'){
@@ -83,8 +82,9 @@ void loop() {
     digitalWrite(led1, HIGH);
     if(buffer1[0]!='R'){
          Serial.print(" has entered the room \n");
-    }}
-    else if(counter1 % 2 == 0 and buffer1[0]=='M'){           //looking for an even number to detect the state
+    }
+  }
+  else if(counter1 % 2 == 0 and buffer1[0]=='M'){           //looking for an even number to detect the state
     digitalWrite(led1, LOW);  
     Serial.print(" has left the room \n");
     }
